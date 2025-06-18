@@ -1,0 +1,110 @@
+﻿<Window x:Class="SocialNetworkApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Social Network" Height="859" Width="1039">
+    <Window.Background>
+        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+            <GradientStop Color="#FFECECEC" Offset="0"/>
+            <GradientStop Color="#FFFFFFFF" Offset="1"/>
+        </LinearGradientBrush>
+    </Window.Background>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="3*"/>
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Grid.Column="0" Margin="20">
+
+            <TextBlock Text="Add new user:" FontWeight="Bold"/>
+            <TextBlock Text="Username:"/>
+            <TextBox x:Name="MemberNameTextBox"/>
+            <TextBlock Text="Email:"/>
+            <TextBox x:Name="MemberEmailTextBox"/>
+            <Button Content="Add user" Click="AddMember_Click"/>
+
+            <Border BorderThickness="2" BorderBrush="#FF6200EE" Padding="6" Margin="0,15,0,0" Width="313">
+                <StackPanel>
+                    <TextBlock Text="Create new group:" FontWeight="Bold"/>
+                    <TextBlock Text="Group name:"/>
+                    <TextBox x:Name="GroupNameTextBox"/>
+                    <TextBlock Text="Owner:"/>
+                    <ComboBox x:Name="GroupOwnerComboBox" DisplayMemberPath="Name" Width="140"/>
+                    <Button Content="Create group" Click="CreateGroup_Click"/>
+                </StackPanel>
+            </Border>
+
+            <TextBlock Text="Network members:" FontWeight="Bold" Margin="0,14,0,0"/>
+            <ListBox x:Name="MembersListBox" Height="140" DisplayMemberPath="Name"
+                     SelectionChanged="MembersListBox_SelectionChanged"/>
+
+            <TextBlock Text="Groups:" FontWeight="Bold" Margin="8,10,0,0"/>
+            <ListBox x:Name="GroupsListBox" Height="120" DisplayMemberPath="Name"
+                     SelectionChanged="GroupsListBox_SelectionChanged"/>
+        </StackPanel>
+
+        <StackPanel Grid.Column="1" Margin="20">
+
+            <TextBlock Text="Selected user's friends:" FontWeight="Bold"/>
+            <ListBox x:Name="FriendsListBox" Height="80" DisplayMemberPath="Name"
+                     SelectionChanged="FriendsListBox_SelectionChanged"/>
+
+            <StackPanel Orientation="Horizontal" Margin="0,4,0,0">
+                <Button Content="Show friends" Click="ShowFriends_Click"/>
+                <Button x:Name="RemoveFriendButton" Content="Remove friend"
+                        Click="RemoveFriend_Click" Margin="5,0,0,0" IsEnabled="False"/>
+            </StackPanel>
+
+            <TextBlock Text="Send friend request:" FontWeight="Bold" Margin="0,10,0,0"/>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="From:" VerticalAlignment="Center"/>
+                <ComboBox x:Name="SenderComboBox" Width="120" DisplayMemberPath="Name" Margin="5,0"/>
+                <TextBlock Text="To:" VerticalAlignment="Center" Margin="10,0,0,0"/>
+                <ComboBox x:Name="ReceiverComboBox" Width="120" DisplayMemberPath="Name" Margin="5,0"/>
+            </StackPanel>
+            <Button Content="Send request" Click="SendRequest_Click"/>
+
+            <TextBlock Text="Incoming friend requests for selected user:" FontWeight="Bold" Margin="0,10,0,0"/>
+            <ListBox x:Name="IncomingRequestsListBox" Height="80">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock>
+                            <TextBlock.Text>
+                                <MultiBinding StringFormat="Request #{0}: from {1} – {2}">
+                                    <Binding Path="Id"/>
+                                    <Binding Path="Sender.Name"/>
+                                    <Binding Path="Status"/>
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+
+            <StackPanel Orientation="Horizontal">
+                <Button Content="Accept" Click="AcceptRequest_Click"/>
+                <Button Content="Decline" Click="DeclineRequest_Click" Margin="5,0,0,0"/>
+            </StackPanel>
+
+            <Separator Margin="0,10,0,10"/>
+
+            <TextBlock Text="Selected group's members:" FontWeight="Bold"/>
+            <ListBox x:Name="GroupMembersListBox" Height="80" DisplayMemberPath="Name"
+                     SelectionChanged="GroupMembersListBox_SelectionChanged"/>
+
+            <StackPanel Orientation="Horizontal" Margin="0,4,0,0">
+                <TextBlock Text="Add member:" VerticalAlignment="Center"/>
+                <ComboBox x:Name="AddToGroupComboBox" Width="120" DisplayMemberPath="Name" Margin="5,0"/>
+                <Button Content="Add" Click="AddToGroup_Click"/>
+                <Button x:Name="RemoveFromGroupButton" Content="Remove"
+                        Click="RemoveFromGroup_Click" Margin="5,0,0,0" IsEnabled="False"/>
+                <Button x:Name="DeleteGroupButton" Content="Delete group"
+                        Click="DeleteGroup_Click" Margin="20,0,0,0" IsEnabled="False"/>
+                <Button Content="Leave group" x:Name="LeaveGroupButton" Margin="6,0,0,0" Click="LeaveGroup_Click" IsEnabled="False"/>
+            </StackPanel>
+            
+            <TextBlock x:Name="StatusTextBlock" FontSize="16" Margin="5,22,0,0" TextWrapping="Wrap"/>
+        </StackPanel>
+    </Grid>
+</Window>
